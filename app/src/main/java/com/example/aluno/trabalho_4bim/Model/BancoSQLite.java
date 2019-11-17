@@ -16,7 +16,7 @@ public class BancoSQLite extends SQLiteOpenHelper {
         String sql = "CREATE TABLE usuario(codigo integer primary key autoincrement, nome text, senha text);";
         db.execSQL(sql);
 
-        sql = "CREATE TABLE problema(codigo integer primary key autoincrement, usuario text, descr text, sincronizado boolean, latitude float, longitude float, data timestamp default current_timestamp);";
+        sql = "CREATE TABLE problema(codigo integer primary key autoincrement, usuario text, descr text, sincronizado int, latitude float, longitude float, data timestamp default current_timestamp);";
         db.execSQL(sql);
 
         sql = "CREATE TABLE imagem(codigo integer primary key autoincrement, codproblema integer, foto blob);";

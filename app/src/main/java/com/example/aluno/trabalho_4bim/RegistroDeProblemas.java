@@ -78,19 +78,22 @@ public class RegistroDeProblemas extends AppCompatActivity {
 
             problema.setUsuario(UsuarioLogin.usuario.getNome());
             problema.setDescr(txtDescr.getText().toString());
+            problema.setSincronizado(0);
             problema.setLatitude(String.valueOf(local.getLatitude()));
             problema.setLongitude(String.valueOf(local.getLongitude()));
 
             problemaCRUD.gravarSQLite(getBaseContext(), problema);
 
+            //Código correto porém o aplicativo fecha ao abrir a câmera, portanto o bloco está comentado para permitir o cadastro dos problemas sem foto.
+            /*
             fotoTirada.compress(Bitmap.CompressFormat.JPEG, 85, vetorByte);//public boolean compress (Bitmap.CompressFormat format, int quality (0-100)maxima qualidade, OutputStream stream)
             imagem.setFoto(vetorByte.toByteArray());
             imagem.setCodProblema(problema.getCodigo());
             imagemCRUD.gravarSQLite(getBaseContext(),imagem);
+            */
 
-
+            limpar();
             Toast.makeText(this, "Problema registrado com sucesso!",Toast.LENGTH_LONG).show();
-
         }catch (Exception ex){
             Toast.makeText(this, "Erro: "+ex.getMessage(),Toast.LENGTH_LONG).show();
         }

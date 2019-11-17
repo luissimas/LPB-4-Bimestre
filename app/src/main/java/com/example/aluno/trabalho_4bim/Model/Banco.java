@@ -69,7 +69,7 @@ public class Banco implements Runnable {
         try {
             Class.forName("org.postgresql.Driver");
             if ((conexao == null) || (conexao.isClosed())) {
-                conexao = DriverManager.getConnection("jdbc:postgresql://10.114.78.33:5432/LPB", "postgres", "ifsp");
+                conexao = DriverManager.getConnection("jdbc:postgresql://192.168.99.104:5432/LPB", "postgres", "ifsp");
             }
         } catch (Exception ex) {
             this.erro = "Erro de conexao run:" + ex.getMessage();

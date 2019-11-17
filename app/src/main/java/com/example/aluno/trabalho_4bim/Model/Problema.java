@@ -6,6 +6,7 @@ public class Problema {
     private int codigo;
     private String usuario;
     private String descr;
+    private int sincronizado = 0;
     private float latitude;
     private float longitude;
     private Date data;
@@ -36,6 +37,14 @@ public class Problema {
 
     public void setDescr(String descrRecebido) {
         descr = descrRecebido;
+    }
+
+    public int getSincronizado(){
+        return sincronizado;
+    }
+
+    public void setSincronizado(int sincronizadoRecebido){
+        sincronizado = sincronizadoRecebido;
     }
 
     public float getLatitude() {
