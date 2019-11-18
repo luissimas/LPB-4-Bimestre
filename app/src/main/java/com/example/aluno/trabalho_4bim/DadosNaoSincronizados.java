@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.aluno.trabalho_4bim.Controller.ImagemCRUD;
 import com.example.aluno.trabalho_4bim.Controller.ProblemaCRUD;
+import com.example.aluno.trabalho_4bim.Model.Imagem;
 import com.example.aluno.trabalho_4bim.Model.Lista;
 import com.example.aluno.trabalho_4bim.Model.Problema;
 import com.example.aluno.trabalho_4bim.Model.UsuarioLogin;
@@ -141,9 +143,10 @@ public class DadosNaoSincronizados extends AppCompatActivity {
 
     public void sincronizar(View v){
         ProblemaCRUD problemaCRUD = new ProblemaCRUD();
+        ImagemCRUD imagemCRUD = new ImagemCRUD();
 
         try{
-            problemaCRUD.sincronizarPostgres(getBaseContext(), problemaGlobal);
+            problemaCRUD.sincronizarPostgres(getBaseContext(), problemaGlobal, imagemCRUD.preencher(getBaseContext(), problemaGlobal.getCodigo()));
 
             listar();
             limpar();

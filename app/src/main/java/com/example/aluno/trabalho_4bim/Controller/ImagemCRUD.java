@@ -70,4 +70,29 @@ public class ImagemCRUD {
             throw new Exception("Erro ao consultar no SQLite: "+ex.getMessage());
         }
     }
+
+    public Imagem preencher(Context context, Integer codigoRecebido) throws Exception{
+        BancoSQLite conexao;
+        SQLiteDatabase bancoSQLLite;
+        Cursor tabela= null;
+        Imagem imagem = null;
+        try{
+            conexao = new BancoSQLite(context);
+            bancoSQLLite = conexao.getReadableDatabase();
+
+            tabela = bancoSQLLite.rawQuery ("Select codigo, codproblema, foto from imagem where codproblema=?" ,new String[]{String.valueOf(codigoRecebido)});
+
+            if((tabela!=null)&&(tabela.moveToNext())){
+                imagem = new Imagem();
+                imagem.setCodigo(tabela.getInt(0));
+                imagem.setCodProblema(tabela.getString(1));
+                imagem.setFoto(tabela.getBlob(2));
+            }
+
+            return(imagem);
+        }
+        catch (Exception ex){
+            throw new Exception("Erro ao preencher imagem: "+ex.getMessage());
+        }
+    }
 }

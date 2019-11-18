@@ -8,14 +8,17 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.aluno.trabalho_4bim.Model.Banco;
 import com.example.aluno.trabalho_4bim.Model.BancoExecuteUpdate;
 import com.example.aluno.trabalho_4bim.Model.BancoSQLite;
+import com.example.aluno.trabalho_4bim.Model.Imagem;
 import com.example.aluno.trabalho_4bim.Model.Problema;
 
+import java.sql.Blob;
+import java.sql.Date;
 import java.sql.SQLData;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ProblemaCRUD {
-    public int sincronizarPostgres(Context context, Problema problema) throws Exception {
+    public int sincronizarPostgres(Context context, Problema problema, Imagem imagem) throws Exception {
         Banco banco = null;
         BancoExecuteUpdate bancoExecuteUpdate = null;
 
@@ -39,6 +42,15 @@ public class ProblemaCRUD {
             bancoExecuteUpdate = new BancoExecuteUpdate(banco.comando);
             r = bancoExecuteUpdate.execute().get(); //Executa o sql em paralelo
 
+            if(imagem != null){
+                banco.comando=Banco.conexao.prepareStatement("Insert into imagem(codproblema, foto) values(?,?)");
+                banco.comando.setString(1, String.valueOf(problema.getCodigo()));
+                banco.comando.setBytes(2, imagem.getFoto());
+
+                bancoExecuteUpdate = new BancoExecuteUpdate(banco.comando);
+                r = bancoExecuteUpdate.execute().get(); //Executa o sql em paralelo
+            }
+            
             banco.desconectar();
 
             bb.execSQL("update problema set sincronizado=? where codigo=?",new String[]{String.valueOf(1), String.valueOf(problema.getCodigo())});
@@ -141,13 +153,13 @@ public class ProblemaCRUD {
                 problema.setSincronizado(tabela.getInt(3));
                 problema.setLatitude(tabela.getFloat(4));
                 problema.setLongitude(tabela.getFloat(5));
-                problema.setData((java.sql.Date) new SimpleDateFormat("dd/MM/yyyy").parse(tabela.getString(6)));
+                problema.setData(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(tabela.getString(6)).getTime()));
             }
 
             return(problema);
         }
         catch (Exception ex){
-            throw new Exception("Erro ao preencher: " + ex.getMessage());
+            throw new Exception("Erro ao preencher problema: " + ex.getMessage());
         }
     }
 }
